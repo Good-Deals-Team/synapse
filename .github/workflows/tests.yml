@@ -225,7 +225,7 @@ jobs:
         run: cat sytest-blacklist .ci/worker-blacklist > synapse-blacklist-with-workers
       - name: Run SyTest
         run: |
-          /bootstrap.sh synapse & bash -c 'while :; do sleep 15; echo HUMAN; df -h; echo ROBOT; df; bfree=`df | grep '"'"'overlay'"'"' | awk '"'"'{ print $4 }'"'"'`; if [ $bfree \< 512000 ]; then echo LOW DISK SPACE; killall -sKILL bootstrap.sh; fi; done' & bash -c 'while :; do sleep 1m; echo MINUTE; done'
+          /bootstrap.sh synapse & bash -c 'while :; do sleep 15; echo HUMAN; df -h; echo ROBOT; df; bfree=`df | grep '"'"'overlay'"'"' | awk '"'"'{ print $4 }'"'"'`; if [ $bfree -lt 512000 ]; then echo LOW DISK SPACE; ps aux; killall -sKILL bootstrap.sh; fi; done' & bash -c 'while :; do sleep 1m; echo MINUTE; done'
         working-directory: /src
       - name: Summarise results.tap
         if: ${{ always() }}
