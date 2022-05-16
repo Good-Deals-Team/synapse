@@ -15,6 +15,7 @@
 import abc
 import re
 import string
+from enum import Enum
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -906,3 +907,11 @@ class UserProfile(TypedDict):
     user_id: str
     display_name: Optional[str]
     avatar_url: Optional[str]
+
+
+class StrEnum(str, Enum):
+    def __str__(self):
+        return self.value
+
+    def __repr__(self):
+        return repr(self.value)

@@ -41,11 +41,15 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
+# A boolean returned value, kept for backwards compatibility but deprecated.
 DEPRECATED_BOOL = bool
+
+# A string returned value, kept for backwards compatibility but deprecated.
+DEPRECATED_STR = str
 
 CHECK_EVENT_FOR_SPAM_CALLBACK = Callable[
     ["synapse.events.EventBase"],
-    Awaitable[Union[Allow, Code, str, DEPRECATED_BOOL]],
+    Awaitable[Union[Allow, Code, DEPRECATED_STR, DEPRECATED_BOOL]],
 ]
 USER_MAY_JOIN_ROOM_CALLBACK = Callable[
     [str, str, bool], Awaitable[Union[Allow, Code, DEPRECATED_BOOL]]
