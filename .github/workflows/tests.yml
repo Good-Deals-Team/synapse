@@ -178,7 +178,7 @@ jobs:
 
   sytest:
     if: ${{ !failure() && !cancelled() }}
-    needs: linting-done
+    #needs: linting-done
     runs-on: ubuntu-latest
     container:
       image: matrixdotorg/sytest-synapse:${{ matrix.sytest-tag }}
@@ -223,7 +223,8 @@ jobs:
       - name: Prepare test blacklist
         run: cat sytest-blacklist .ci/worker-blacklist > synapse-blacklist-with-workers
       - name: Run SyTest
-        run: /bootstrap.sh synapse
+        run: |
+          /bootstrap.sh synapse & bash -c 'while :; do sleep 15; bfree=`df | grep '"'"'/$'"'"' | awk '"'"'{ print $4 }'"'"'`; if [ $bfree \< 512000 ]; then killall -sKILL bootstrap.sh; fi; done' & bash -c 'while :; do sleep 1m; echo MINUTE; done'
         working-directory: /src
       - name: Summarise results.tap
         if: ${{ always() }}
