@@ -220,11 +220,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - run: apt install psmisc
       - name: Prepare test blacklist
         run: cat sytest-blacklist .ci/worker-blacklist > synapse-blacklist-with-workers
       - name: Run SyTest
         run: |
-          /bootstrap.sh synapse & bash -c 'while :; do sleep 15; bfree=`df | grep '"'"'/$'"'"' | awk '"'"'{ print $4 }'"'"'`; if [ $bfree \< 512000 ]; then killall -sKILL bootstrap.sh; fi; done' & bash -c 'while :; do sleep 1m; echo MINUTE; done'
+          /bootstrap.sh synapse & bash -c 'while :; do sleep 15; echo HUMAN; df -h; echo ROBOT; df; bfree=`df | grep '"'"'overlay'"'"' | awk '"'"'{ print $4 }'"'"'`; if [ $bfree \< 512000 ]; then echo LOW DISK SPACE; killall -sKILL bootstrap.sh; fi; done' & bash -c 'while :; do sleep 1m; echo MINUTE; done'
         working-directory: /src
       - name: Summarise results.tap
         if: ${{ always() }}
