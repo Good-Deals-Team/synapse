@@ -220,7 +220,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - run: apt install psmisc procps
+      - run: apt-get install -qq -y psmisc procps
       - name: Prepare test blacklist
         run: cat sytest-blacklist .ci/worker-blacklist > synapse-blacklist-with-workers
       - name: Run SyTest
